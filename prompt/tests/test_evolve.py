@@ -83,6 +83,36 @@ def test_gate_rejects_exhaust_iters(monkeypatch, tmp_path):
     assert result.best_passed == 2
 
 
+def _last_version(tmp_path):
+    path = tmp_path / "clean" / "zero_shot-20261024T221300" / "versions.jsonl"
+    return json.loads(path.read_text(encoding="utf-8").splitlines()[-1])
+
+
+def test_evolver_llm_error_logs_seed(monkeypatch, tmp_path):
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    pack = load_pack("clean")
+    seed = working_copy(pack.slots, "zero_shot")
+    client = ScriptedClient([answer("keep")] * 4 + [LlmError("down")])
+    result = evolve("clean", "zero_shot", CONFIG, client=client, clock=lambda: NOW, runs_root=tmp_path)
+    assert result.stop_reason == "llm_error"
+    assert result.best_passed == 2
+    last = _last_version(tmp_path)
+    assert last["kind"] == "llm_error"
+    assert last["slots"] == slots_to_dict(seed)
+
+
+def test_candidate_score_llm_error_logs_candidate(monkeypatch, tmp_path):
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    pack = load_pack("clean")
+    candidate = working_copy(pack.slots, "zero_shot")
+    good = json.dumps(slots_to_dict(candidate), ensure_ascii=False)
+    client = ScriptedClient([answer("keep")] * 4 + [good, LlmError("down")])
+    result = evolve("clean", "zero_shot", CONFIG, client=client, clock=lambda: NOW, runs_root=tmp_path)
+    assert result.stop_reason == "llm_error"
+    last = _last_version(tmp_path)
+    assert last["slots"] == slots_to_dict(candidate)
+
+
 def test_task_brief_rules(monkeypatch, tmp_path):
     monkeypatch.setenv("OPENAI_API_KEY", "test-key")
     with pytest.raises(PreflightError, match="distill"):

@@ -1,3 +1,4 @@
+import http.client
 import json
 import urllib.error
 import urllib.request
@@ -40,7 +41,7 @@ class OpenAiCompatibleClient:
                 payload = json.loads(response.read().decode())
         except urllib.error.HTTPError as exc:
             raise LlmError(str(exc.code)) from exc
-        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        except (OSError, ValueError, http.client.HTTPException) as exc:
             raise LlmError(str(exc)) from exc
         try:
             content = payload["choices"][0]["message"]["content"]

@@ -19,11 +19,20 @@ class Config:
     timeout_s: int = 60
 
 
+def _or_default(data: dict, key: str, default):
+    value = data.get(key)
+    if value is None:
+        return default
+    return value
+
+
 def load_config(path: str) -> Config:
-    file = Path(path)
-    if not file.exists():
+    try:
+        data = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError) as exc:
+        raise PreflightError("missing field: config") from exc
+    if not isinstance(data, dict):
         raise PreflightError("missing field: config")
-    data = yaml.safe_load(file.read_text(encoding="utf-8")) or {}
     if not data.get("base_url"):
         raise PreflightError("missing field: base_url")
     if not data.get("model"):
@@ -31,13 +40,13 @@ def load_config(path: str) -> Config:
     return Config(
         base_url=data["base_url"],
         model=data["model"],
-        api_key_env=data.get("api_key_env", "OPENAI_API_KEY"),
-        max_iters=data.get("max_iters", 5),
-        temperature=data.get("temperature", 0),
-        evolver_temperature=data.get("evolver_temperature", 0.7),
-        self_consistency_n=data.get("self_consistency_n", 5),
-        react_max_steps=data.get("react_max_steps", 4),
-        timeout_s=data.get("timeout_s", 60),
+        api_key_env=_or_default(data, "api_key_env", "OPENAI_API_KEY"),
+        max_iters=_or_default(data, "max_iters", 5),
+        temperature=_or_default(data, "temperature", 0),
+        evolver_temperature=_or_default(data, "evolver_temperature", 0.7),
+        self_consistency_n=_or_default(data, "self_consistency_n", 5),
+        react_max_steps=_or_default(data, "react_max_steps", 4),
+        timeout_s=_or_default(data, "timeout_s", 60),
     )
 
 

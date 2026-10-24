@@ -24,7 +24,11 @@ class TaskPack:
 def assert_no_overlap(examples, rows) -> None:
     canonical_inputs = {canonical_json(row["input"]) for row in rows}
     for example in examples:
-        if example.input in canonical_inputs:
+        try:
+            example_key = canonical_json(json.loads(example.input))
+        except json.JSONDecodeError:
+            example_key = example.input
+        if example_key in canonical_inputs:
             raise PreflightError("example overlaps val")
 
 

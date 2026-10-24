@@ -73,7 +73,11 @@ def check_gate(payload: dict, method: str, task: str, val_inputs: list) -> GateR
                 return GateResult(False, "example_empty")
             if not raw_input.strip() or not raw_output.strip():
                 return GateResult(False, "example_empty")
-            if raw_input in canonical_inputs:
+            try:
+                example_key = canonical_json(json.loads(raw_input))
+            except json.JSONDecodeError:
+                example_key = raw_input
+            if example_key in canonical_inputs:
                 return GateResult(False, "example_overlaps_val")
     elif examples:
         return GateResult(False, "examples_must_be_empty")

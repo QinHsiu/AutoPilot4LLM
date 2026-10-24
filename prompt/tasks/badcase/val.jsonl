@@ -1,0 +1,4 @@
+{"gold":"FORMAT","id":"b1","input":{"gold_fact":"咳嗽","label":"咳嗽","output":"","text":"症状为咳嗽","topic":"症状"}}
+{"gold":"OFF_TOPIC","id":"b2","input":{"gold_fact":"适量","label":"过量","output":"是","text":"患者咳嗽","topic":"剂量"}}
+{"gold":"WRONG_LABEL","id":"b3","input":{"gold_fact":"咳嗽","label":"头痛","output":"否","text":"症状为咳嗽","topic":"症状"}}
+{"gold":"MISSING_EVIDENCE","id":"b4","input":{"gold_fact":"发热","label":"发热","output":"是","text":"症状尚不明确","topic":"症状"}}

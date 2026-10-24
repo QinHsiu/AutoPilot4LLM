@@ -1,0 +1,4 @@
+{"gold":"keep","id":"c1","input":{"name":"张三","sex":"男","symptom":"发热两天"}}
+{"gold":"drop","id":"c2","input":{"name":"赵六","sex":"女","symptom":""}}
+{"gold":"drop","id":"c3","input":{"sex":"男","symptom":"咽痛"}}
+{"gold":"keep","id":"c4","input":{"name":"孙八","sex":"女","symptom":"皮疹五天"}}

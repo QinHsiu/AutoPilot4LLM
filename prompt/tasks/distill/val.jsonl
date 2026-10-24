@@ -1,0 +1,4 @@
+{"gold":{"name":"张三","sex":"男","symptom":"发热两天"},"id":"d1","input":{"text":"患者张三，男，发热两天。"}}
+{"gold":{"name":"赵六","sex":"女","symptom":"腹痛三小时"},"id":"d2","input":{"text":"患者赵六，女，腹痛三小时。"}}
+{"gold":{"name":"陈七","sex":"男","symptom":"咽痛四天"},"id":"d3","input":{"text":"患者陈七，男，咽痛四天。"}}
+{"gold":{"name":"孙八","sex":"女","symptom":"皮疹五天"},"id":"d4","input":{"text":"患者孙八，女，皮疹五天。"}}

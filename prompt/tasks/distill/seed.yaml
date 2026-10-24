@@ -1,0 +1,11 @@
+task_brief: "抽出 name、sex、symptom。name 是姓名，sex 是性别，symptom 是症状。"
+role: "你是一名只根据给定材料抽取字段的数据蒸馏员，只输出材料中直接支持的字段。"
+task: "从给定材料中抽出任务说明要求的字段，并给出与标准字段一致的记录。"
+context: "任务说明：{task_brief}\n当前材料：{item}"
+constraints: "每个字段都使用材料中的原词。缺少依据的字段使用空字符串。推理写在 reasoning，结果写在 answer。"
+output_format: "JSON 对象，先写 reasoning，再写 answer。answer 是对象，键为 name、sex、symptom，值是字符串。"
+examples:
+  - input: "{\"text\":\"患者李四，女，咳嗽一周。\"}"
+    output: "{\"reasoning\":\"依据已写在材料中。\",\"answer\":{\"name\":\"李四\",\"sex\":\"女\",\"symptom\":\"咳嗽一周\"}}"
+  - input: "{\"text\":\"患者王五，男，头痛一天。\"}"
+    output: "{\"reasoning\":\"依据已写在材料中。\",\"answer\":{\"name\":\"王五\",\"sex\":\"男\",\"symptom\":\"头痛一天\"}}"

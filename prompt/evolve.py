@@ -2,7 +2,7 @@ import os
 from dataclasses import dataclass
 from datetime import datetime
 
-from prompt.config import config_public
+from prompt.config import config_public, load_config
 from prompt.errors import PreflightError
 from prompt.gate import check_gate, parse_json_text
 from prompt.llm import LlmError, OpenAiCompatibleClient
@@ -169,3 +169,29 @@ def evolve(task, method, config, task_brief=None, val_path=None, client=None, cl
         if passed == total:
             return finish("perfect_score", current, passed)
     return finish("max_iters", current, passed)
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+    import sys
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--task", required=True)
+    parser.add_argument("--method", required=True)
+    parser.add_argument("--config", required=True)
+    parser.add_argument("--task-brief", default=None)
+    parser.add_argument("--val-path", default=None)
+    args = parser.parse_args(argv)
+    try:
+        config = load_config(args.config)
+        result = evolve(args.task, args.method, config, task_brief=args.task_brief, val_path=args.val_path)
+    except PreflightError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    return exit_code(result)
+
+
+if __name__ == "__main__":
+    import sys
+
+    sys.exit(main())

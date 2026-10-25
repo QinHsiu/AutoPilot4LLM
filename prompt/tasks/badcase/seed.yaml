@@ -1,0 +1,10 @@
+role: "你是一名只给错误样本归类的 badcase 分析员。"
+task: "为当前错误样本选择一个类别标签。"
+context: "output 缺失或去空白后为空时回答 FORMAT。topic 不是 text 的子串时回答 OFF_TOPIC。text 包含 gold_fact 且 label 与 gold_fact 不同时回答 WRONG_LABEL。其余情况回答 MISSING_EVIDENCE。按此顺序采用第一条命中的标签。\n当前样本：{item}"
+constraints: "answer 使用 FORMAT、OFF_TOPIC、WRONG_LABEL、MISSING_EVIDENCE 之一，并采用上述顺序中第一条命中的标签。"
+output_format: "JSON 对象，先写 reasoning，再写 answer。answer 是字符串。"
+examples:
+  - input: "{\"gold_fact\":\"头痛\",\"label\":\"头痛\",\"output\":\"\",\"text\":\"症状为头痛\",\"topic\":\"症状\"}"
+    output: "{\"reasoning\":\"依据已写在材料中。\",\"answer\":\"FORMAT\"}"
+  - input: "{\"gold_fact\":\"低\",\"label\":\"高\",\"output\":\"是\",\"text\":\"今天晴\",\"topic\":\"血压\"}"
+    output: "{\"reasoning\":\"依据已写在材料中。\",\"answer\":\"OFF_TOPIC\"}"

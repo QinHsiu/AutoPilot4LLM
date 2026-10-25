@@ -1,0 +1,4 @@
+{"gold":"pass","id":"g1","input":{"name":"张三","text":"复诊"}}
+{"gold":"fail","id":"g2","input":{"name":"","text":"复诊"}}
+{"gold":"redact","id":"g3","input":{"name":"赵六","text":"手机13912345678"}}
+{"gold":"fail","id":"g4","input":{"name":"","text":"手机13900001111"}}

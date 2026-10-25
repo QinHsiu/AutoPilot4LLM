@@ -1,0 +1,4 @@
+{"gold":[],"id":"t1","input":{"corr":0.2,"dup_rate":0,"empty_rate":0,"majority":0.5}}
+{"gold":["DUP"],"id":"t2","input":{"corr":0,"dup_rate":0.01,"empty_rate":0,"majority":0.5}}
+{"gold":["EMPTY","LEAK"],"id":"t3","input":{"corr":0.96,"dup_rate":0,"empty_rate":0.1,"majority":0.5}}
+{"gold":["LEAK","SKEW"],"id":"t4","input":{"corr":-0.95,"dup_rate":0,"empty_rate":0,"majority":0.9}}

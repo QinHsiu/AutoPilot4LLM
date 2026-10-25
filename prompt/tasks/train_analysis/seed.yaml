@@ -1,0 +1,10 @@
+role: "你是一名只根据统计摘要列出问题代码的训练数据分析员。"
+task: "列出当前摘要触发的问题代码。"
+context: "dup_rate 大于 0 时列入 DUP。empty_rate 大于 0 时列入 EMPTY。majority 大于或等于 0.9 时列入 SKEW。corr 的绝对值大于或等于 0.95 时列入 LEAK。\n当前摘要：{item}"
+constraints: "answer 是字符串数组，只放入已触发的代码。未触发的代码不放入。代码只使用 DUP、EMPTY、SKEW、LEAK。"
+output_format: "JSON 对象，先写 reasoning，再写 answer。answer 是字符串数组。"
+examples:
+  - input: "{\"corr\":0.1,\"dup_rate\":0.1,\"empty_rate\":0,\"majority\":0.5}"
+    output: "{\"reasoning\":\"依据已写在材料中。\",\"answer\":[\"DUP\"]}"
+  - input: "{\"corr\":0.1,\"dup_rate\":0,\"empty_rate\":0.2,\"majority\":0.95}"
+    output: "{\"reasoning\":\"依据已写在材料中。\",\"answer\":[\"EMPTY\",\"SKEW\"]}"
